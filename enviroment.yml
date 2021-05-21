@@ -1,0 +1,13 @@
+name: the-truth
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - click
+  - colorama
+  - Flask
+  - itsdangerous
+  - Jinja2
+  - MarkupSafe
+  - Werkzeug
