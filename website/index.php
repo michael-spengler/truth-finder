@@ -10,16 +10,33 @@
   <body>
     <?php   
     include('.\includes\user.php');
+    include('.\includes\dbh.php')
     
     //Erstelle User "Cadogan" mit Informationen und gebe diese auf Seite aus
-    $Cadogan = new user('Cadogan',"HalloDasIstMeiPW", "100", "100", "0", "05.12.1999");
-    echo $Cadogan->getUsername();
-    echo $Cadogan->getAmountVoted();
+    // $Cadogan = new user('Cadogan',"HalloDasIstMeiPW", "100", "100", "0", "05.12.1999");
+    // echo $Cadogan->getUsername();
+    // echo $Cadogan->getAmountVoted();
+
+    
     
     
     ?>
 
   <!-- Beginn Webpage -->
+  <?php
+  $sql = "SELECT * FROM user;";
+  $result = mysqli_query($conn, $sql);
+  $resultCheck = mysqli_num_rows($result);
+
+  if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)){
+      echo $row['Username'];
+      echo $row['UserID'];
+    }
+    
+
+  } 
+  ?>
     <div class="container">
         <div class="row">
           <div class="col-sm-4">
@@ -31,6 +48,7 @@
           </div>
           <div class="col-sm-4">
             <h3>Oh Wow! Noch eine viel tollere Zeile!</h3>
+
             
           </div>
         </div>
