@@ -6,13 +6,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php
-    include_once(".\header.php");
+    include_once(".\includes\header.php");
     ?>
     <title>Fake News Casino</title>
   </head>
   <body>
     <?php   
-    include('.\includes\user.php');
     include('.\includes\dbh.php')
     
     //Erstelle User "Cadogan" mit Informationen und gebe diese auf Seite aus
@@ -32,7 +31,18 @@
             <h3>Hier steht eine tolle Zeile</h3>
           </div>
           <div class="col-sm-4">
-            <h1>Willkommen im Fake News Casino! Um anzufangen gib uns all dein Geld:3</h1>
+            <?php
+
+            if (func::CheckLoginState($conn))
+            {
+              echo "Welcome" . $_SESSION['username'] . '!';
+                        }
+            else{
+              echo "Bitte anmelden!";
+            }
+            ?>
+            <button onclick="location.href='login.php'">Login</button>  
+          
             
           </div>
           <div class="col-sm-4">
@@ -44,6 +54,6 @@
       </div>
   </body>
   <?php
-    include_once("footer.php");
+    include_once(".\includes\Footer.php");
     ?>
 </html>
