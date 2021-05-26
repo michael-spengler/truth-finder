@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="styles.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+    include_once(".\header.php");
+    ?>
     <title>Fake News Casino</title>
   </head>
   <body>
@@ -23,20 +26,6 @@
     ?>
 
   <!-- Beginn Webpage -->
-  <?php
-  $sql = "SELECT * FROM user;";
-  $result = mysqli_query($conn, $sql);
-  $resultCheck = mysqli_num_rows($result);
-
-  if ($resultCheck > 0) {
-    while ($row = mysqli_fetch_assoc($result)){
-      echo $row['Username'];
-      echo $row['UserID'];
-    }
-    
-
-  } 
-  ?>
     <div class="container">
         <div class="row">
           <div class="col-sm-4">
@@ -54,4 +43,7 @@
         </div>
       </div>
   </body>
+  <?php
+    include_once("footer.php");
+    ?>
 </html>
