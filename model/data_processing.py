@@ -127,9 +127,8 @@ df_snopes_raw['snopes_url_phase1'][0]
 # [needs to be filtered, there is no fact checking from our side, worsens training data]
 #
 # Legend: This rating is most commonly associated with items that describe events so general or lacking in detail that they could have happened to someone, somewhere, at some time, and are therefore essentially unprovable.
-# []
 #
-# Outdated: This rating applies to items for which subsequent events have rendered their original truth rating irrelevant (e.g., a condition that was the subject of protest has been rectified, or the passage of a controversial law has since been repealed). [needs to be filtered]
+# Outdated: This rating applies to items for which subsequent events have rendered their original truth rating irrelevant (e.g., a condition that was the subject of protest has been rectified, or the passage of a controversial law has since been repealed). [needs to be filtered, can be true or false, cant be determined by writing style]
 #
 # Scam: This “rating” is not a truth rating but rather indicates pages that describe the details of verified scams.
 
