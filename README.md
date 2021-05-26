@@ -15,3 +15,6 @@ Work we used as reference, to learn from or simply implemented into our project
 
 ## How to use this repo
 information about usage here
+
+## Data
+Used Data to train the model is available at https://drive.google.com/drive/folders/1qSNBnqadLs9EiXUELpZw8A-2ISngxJh7?usp=sharing. Those files are cleaned versions of webscrapings of PolitiFact, Snopes and Emergent. Please only use these for research purposes as they are ment solly for that.
