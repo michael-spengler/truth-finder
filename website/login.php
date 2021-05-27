@@ -21,15 +21,17 @@ include_once(".\includes\Footer.php");
                 $user_name = $_POST["username"];
                 $user_password = $_POST["passkey"];
 
-                $stmt = $conn->prepare("SELECT * FROM user WHERE user_username = :username AND user_password = :passkey"); 
-                //$stmt->execute(array(':username'=> $_POST["username"], ':passkey'=> $_POST["passkey"]));
+
+
+                $stmt = $conn->prepare("SELECT * FROM user WHERE user_username = :username"); 
+                $stmt->execute(array(':username'=> $_POST["username"]));
                 $stmt->bindParam(":username", $user_name);
-                $stmt->bindParam(":passkey", $user_password);
+                //$stmt->bindParam(":passkey", $user_password);
                 $stmt->execute();
                 
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                if (!empty($row["user_id"]))
+                if (password_verify($user_password, $row["user_password"]) && !empty($row["user_id"]))
                 {
                     func::createRecord($conn, $row["user_username"],$row["user_id"]);
                     //header("location:index.php");
