@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php
     include_once(".\includes\header.php");
+    include_once(".\includes\Functions.php");
     ?>
     <title>Fake News Casino</title>
   </head>
@@ -33,15 +34,17 @@
           <div class="col-sm-4">
             <?php
 
-            if (func::CheckLoginState($conn))
+            if (!func::CheckLoginState($conn))
             {
-              echo "Welcome" . $_SESSION['username'] . '!';
+              echo "Bitte anmelden! <a href = 'login.php'>Login</a>";
                         }
             else{
-              echo "Bitte anmelden!";
+              echo "Welcome " . $_SESSION['user_username'] . ' !';
             }
+
             ?>
-            <button onclick="location.href='login.php'">Login</button>  
+             
+            
           
             
           </div>

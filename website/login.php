@@ -2,6 +2,7 @@
 include_once(".\includes\header.php");
 include_once(".\includes\dbh.php");
 include_once(".\includes\Functions.php");
+include_once(".\includes\Footer.php");
 
 ?>
 
@@ -31,7 +32,7 @@ include_once(".\includes\Functions.php");
                 if (!empty($row["user_id"]))
                 {
                     func::createRecord($conn, $row["user_username"],$row["user_id"]);
-                    header("location:index.php");
+                    //header("location:index.php");
                     //echo func::createString(32);
                     echo "Authentifizierung geglückt";
                    
