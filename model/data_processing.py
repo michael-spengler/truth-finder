@@ -24,26 +24,26 @@ df_poli.original_url_phase1[0]
 for df in [df_poli, df_snopes, df_eme]:
     df.columns
 
-df_poli.drop(columns=['politifact_url_phase1','article_title_phase1','article_published_date_phase1','article_researched_by_phase1','article_edited_by_phase1',
+df_poli.drop(columns=['politifact_url_phase1','article_title_phase1','article_categories_phase1','article_published_date_phase1','article_researched_by_phase1','article_edited_by_phase1',
                      'original_url_phase1','publish_date_phase2','article_claim_citation_phase1','error_phase2','page_is_first_citation_phase1'],
              inplace=True)
-df_snopes.drop(columns=['snopes_url_phase1','article_title_phase1','article_date_phase1','article_origin_url_phase1','publish_date_phase2','error_phase2',
+df_snopes.drop(columns=['snopes_url_phase1','article_category_phase1','article_title_phase1','article_date_phase1','article_origin_url_phase1','publish_date_phase2','error_phase2',
                        'page_is_first_citation_phase1','index_paragraph_phase1'],
                inplace=True)
-df_eme.drop(columns=['emergent_url_phase1','article_date_phase1','article_tracking_body_phase1','original_url_phase1',
+df_eme.drop(columns=['emergent_url_phase1','category_phase1','article_date_phase1','article_tracking_body_phase1','original_url_phase1',
                      'publish_date_phase2','error_phase2','claim_description_phase1','article_tags_phase1'], 
             inplace=True)
 
 df_poli.rename(columns={'fact_tag_phase1':'label','article_title_phase2':'title','article_claim_phase1':'claim',
-                        'article_categories_phase1':'categories', 'original_article_text_phase2':'text',
+                        'original_article_text_phase2':'text',
                         'author_phase2':'author'},
                inplace=True)
 df_snopes.rename(columns={'fact_rating_phase1':'label','article_title_phase2':'title', 'article_claim_phase1':'claim',
-                          'article_category_phase1':'categories', 'original_article_text_phase2':'text',
+                          'original_article_text_phase2':'text',
                           'author_phase2':'author'},
                  inplace=True)
 df_eme.rename(columns={'fact_tag_phase1':'label','article_title_phase2':'title', 'claim_phase1':'claim',
-                       'category_phase1':'categories', 'original_article_text_phase2':'text',
+                       'original_article_text_phase2':'text',
                        'author_phase2':'author'},
               inplace=True)
 
@@ -59,14 +59,48 @@ for df in [df_poli, df_snopes, df_eme]:
 for df in [df_poli, df_snopes, df_eme]:
     df.label.unique()
 
+dic = {
+    'Mostly True'        :'Mostly True',
+    'False'              :'False',
+    'True'               :'True',
+    'Mostly False'       :'Mostly False', 
+    'Pants on Fire!'     :'Legend',
+    'Half-True'          :'Mixture',
+    'Full Flop'          :'Out',
+    'No Flip'            :'Out',
+    'Half Flip'          :'Out',
+    
+    'true'               :'True',
+    'mostly true'        :'Mostly True',
+    'mixture'            :'Mixture',
+    'mostly false'       :'Mostly False',
+    'false'              :'False',
+    'unproven'           :'Out',
+    'outdated'           :'Out',
+    'miscaptioned'       :'Out',
+    'correct attribution':'Out',
+    'misattributed'      :'Out',
+    'scam'               :'Scam',
+    'legend'             :'Legend',
+    
+    'Unverified'         :'Out',
+    'false'              :'False',
+    'true'               :'True'
+}
+
 for df in [df_poli, df_snopes, df_eme]:
     len(df)
 
-df_poli_raw['politifact_url_phase1'][0]
+# +
+df_con = pd.DataFrame(columns=['author', 'claim', 'label', 'text', 'title'])
 
-df_eme_raw['emergent_url_phase1'][0]
+df_con = pd.concat([x for x in [df.replace({"label": dic}, inplace=False) for df in [df_poli, df_snopes, df_eme]]],
+          ignore_index=True)
 
-df_snopes_raw['snopes_url_phase1'][0]
+df_con.head().T
+# -
+
+df_con.to_csv('data/processed_data.zip', index=False)  
 
 # ## How do Scores work?
 #
@@ -131,6 +165,8 @@ df_snopes_raw['snopes_url_phase1'][0]
 # Outdated: This rating applies to items for which subsequent events have rendered their original truth rating irrelevant (e.g., a condition that was the subject of protest has been rectified, or the passage of a controversial law has since been repealed). [needs to be filtered, can be true or false, cant be determined by writing style]
 #
 # Scam: This “rating” is not a truth rating but rather indicates pages that describe the details of verified scams.
+
+df_con.head()
 
 
 
