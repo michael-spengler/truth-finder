@@ -25,3 +25,5 @@ kurz zusammengefasst werden
 ## Betting
 
 ### Verdeckter Score
+
+Verdeckter Score könnte entweder über zwei seperate Contracts, die nacheinander ausgeführt werden und unterschiedliche Informationen enthalten gelöst werden, oder über eine angepasste Version des "Blind Auction" Templates aus der Solidarity doku. TBE
