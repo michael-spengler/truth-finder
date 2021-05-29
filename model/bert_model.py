@@ -54,9 +54,11 @@ len(validate)
 len(test)
 
 model_args = ClassificationArgs()
-model_args.num_train_epochs = 5
-model_args.learning_rate = 1e-4
+model_args.num_train_epochs = 1
+model_args.learning_rate = 1e-3
 model_args.regression = True
+
+model_args
 
 model = ClassificationModel("bert", "bert-base-cased", use_cuda=cuda_available, args=model_args, num_labels=1)
 
