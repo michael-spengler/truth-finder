@@ -4,8 +4,19 @@ import TokenFarm from '../abis/TokenFarm.json'
 import Navbar from './Navbar'
 import Main from './Main'
 import './App.css'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import About from "./About"
+import Account from "./Account"
+
 
 class App extends Component {
+
+  
 
   async componentWillMount() {
     await this.loadWeb3()
@@ -78,6 +89,7 @@ class App extends Component {
   }
 
   render() {
+    
     let content
     if(this.state.loading) {
       content = <Main
@@ -95,18 +107,25 @@ class App extends Component {
     }
 
     return (
-      <div>
-        <Navbar account={this.state.account} />
-          <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto">
-
-                {content}
-
-
-            </main>
-          </div>
-        
+      <Router>
+        <div>
+          <Navbar />
+        </div>
+        <div>
+      <Switch>
+        <Route exact path="/Main">
+          <Main />
+        </Route>
+        <Route path="/About">
+          <About />
+        </Route>
+        <Route path="/Account">
+          <Account account={this.state.account}/>
+        </Route>
+      </Switch>
       </div>
+    </Router>
+
     );
   }
 }
