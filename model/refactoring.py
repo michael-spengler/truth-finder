@@ -122,7 +122,7 @@ def bert_preprocessing(df):
     return input_ids, attention_masks
 
 
-def split_dataset(input_ids, masks, batch_size=5):
+def split_dataset(input_ids, masks,labels, batch_size=5):
     """
     splits dataset into train, validation and test set
     return:
@@ -165,16 +165,15 @@ def split_dataset(input_ids, masks, batch_size=5):
     return train_dataloader, val_dataloader, test_dataloader
 
 
-def get_model(device, model_name="bert-base-uncased", num_labels=1):
-    
-    model = BertForSequenceClassification.from_pretrained(model_name, num_labels)
+def get_model(device, pretrained_model_name_or_path="bert-base-uncased", num_labels=1):
+
+    model = BertForSequenceClassification.from_pretrained(pretrained_model_name_or_path = pretrained_model_name_or_path, num_labels = num_labels)
     model.to(device)
     
     return model
 
 
 def set_parameters(dataloader):
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     
     # Parameters:
     lr = 2e-3
@@ -188,13 +187,28 @@ def set_parameters(dataloader):
     # In Transformers, optimizer and schedules are splitted and instantiated like this:
     optimizer = AdamW(model.parameters(), lr=lr,eps=adam_epsilon,correct_bias=False)  # To reproduce BertAdam specific behavior set correct_bias=False
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=num_warmup_steps, num_training_steps=num_training_steps)  # PyTorch scheduler
+    
+    parameters = {
+        "lr" : lr,
+        "adam_epsilon" : adam_epsilon,
+        "epochs" : epochs,
+        "num_warmup_steps" : num_warmup_steps,
+        "num_training_steps" : num_training_steps,
+        "optimizer" : optimizer,
+        "scheduler" : scheduler
+    }
+    
+    return parameters
 
 
-def train_model(train, val):
+def train_model(train, val, model, parameters):
     """
     train: train_dataloader
     val: val_dataloader
     """
+    
+    optimizer = parameters["optimizer"]
+    scheduler = parameters["scheduler"]
     
     ## Store our loss and accuracy for plotting
     train_loss_set = []
@@ -204,7 +218,7 @@ def train_model(train, val):
     model.zero_grad()
     
     # tnrange is a tqdm wrapper around the normal python range
-    for _ in trange(1,epochs+1,desc='Epoch'):
+    for _ in trange(1, parameters["epochs"]+1, desc='Epoch'):
         print("<" + "="*22 + F" Epoch {_} "+ "="*22 + ">")
         # Calculate total loss for this epoch
         batch_loss = 0
@@ -254,7 +268,7 @@ def train_model(train, val):
             train_loss_set.append(avg_train_loss)
             print(F'\n\tAverage Training loss: {avg_train_loss}')
             
-            validate(model, val)
+            validate(model, val, model)
 
 
 def validate(model, dataloader):
@@ -304,17 +318,19 @@ def model_score(labels, prediction):
     return mse, variance, r2_score
 
 
-# +
 # tokenizer
 input_ids, attention_masks = bert_preprocessing(df)
 
 # data pipelines
-train_dataloader, val_dataloader, test_dataloader = split_dataset(input_ids, masks, batch_size=5)
+train_dataloader, val_dataloader, test_dataloader = split_dataset(input_ids, attention_masks, df.label.values, batch_size=5)
+
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 # load model
-model = get_model(device, model_name="bert-base-uncased", num_labels=1)
+model = get_model(device, pretrained_model_name_or_path="bert-base-uncased", num_labels=1)
 
-set_parameters(train_dataloader)
-# -
+parameters = set_parameters(train_dataloader)
 
-train_model(train_dataloader, val_dataloader)
+train_model(train_dataloader, val_dataloader, model, parameters)
+
+
