@@ -98,9 +98,10 @@ df_con = pd.concat([x for x in [df.replace({"label": dic}, inplace=False) for df
           ignore_index=True)
 
 df_con.head().T
-# -
 
-df_con.to_csv('data/processed_data.zip', index=False)  
+# +
+#df_con.to_csv('data/processed_data.csv', index=False)  
+# -
 
 # ## How do Scores work?
 #
@@ -168,6 +169,6 @@ df_con.to_csv('data/processed_data.zip', index=False)
 
 df_con.head()
 
-
+len(df_con)
 
 
