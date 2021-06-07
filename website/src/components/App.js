@@ -16,11 +16,9 @@ import Account from "./Account"
 
 class App extends Component {
 
-  
-
   async componentWillMount() {
-    await this.loadWeb3()
-    await this.loadBlockchainData()
+    this.loadWeb3()
+    this.loadBlockchainData()
   }
 
   async loadBlockchainData() {
@@ -42,7 +40,7 @@ class App extends Component {
     //   window.alert('TokenFarm contract not deployed to detected network.')
     // }
 
-    this.setState({ loading: false })
+    // this.setState({ loading: false })
   }
 
   async loadWeb3() {
@@ -58,21 +56,23 @@ class App extends Component {
     }
   }
 
-  stakeTokens = (amount) => {
-    this.setState({ loading: true })
-    this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
-      })
-    })
-  }
 
-  unstakeTokens = (amount) => {
-    this.setState({ loading: true })
-    this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.setState({ loading: false })
-    })
-  }
+ 
+  // stakeTokens = (amount) => {
+  //   this.setState({ loading: true })
+  //   this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+  //     this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+  //       this.setState({ loading: false })
+  //     })
+  //   })
+  // }
+
+  // unstakeTokens = (amount) => {
+  //   this.setState({ loading: true })
+  //   this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
+  //     this.setState({ loading: false })
+  //   })
+  // }
 
   constructor(props) {
     super(props)
@@ -90,28 +90,14 @@ class App extends Component {
 
   render() {
     
-    let content
-    if(this.state.loading) {
-      content = <Main
-      stakingBalance={this.state.stakingBalance}
-      stakeTokens={this.stakeTokens}
-      unstakeTokens={this.unstakeTokens}
-    />
-      // <p id="loader" className="text-center">Loading...</p>
-    } else {
-      content = <Main
-        stakingBalance={this.state.stakingBalance}
-        stakeTokens={this.stakeTokens}
-        unstakeTokens={this.unstakeTokens}
-      />
-    }
 
     return (
       <Router>
-        <div>
-          <Navbar />
-        </div>
-        <div>
+      <div>
+        <Navbar/>
+      
+        
+
       <Switch>
         <Route exact path="/Main">
           <Main />

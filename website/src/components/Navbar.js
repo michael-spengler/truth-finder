@@ -37,6 +37,7 @@ class Navbar extends Component {
                         <li class="nav-item"><a class="nav-link"><Link to="/Account">Account</Link></a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                         
+                        
 
 
                       
