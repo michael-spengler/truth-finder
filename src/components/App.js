@@ -12,12 +12,10 @@ import {
 } from "react-router-dom";
 import About from "./About"
 import Account from "./Account"
-import Voting from "./Voting"
+import Voting from "./voting"
 
 
 class App extends Component {
-
-
 
   async componentWillMount() {
     this.loadWeb3()

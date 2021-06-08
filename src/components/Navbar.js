@@ -33,7 +33,6 @@ class Navbar extends Component {
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('view_archive') }}">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
                         <li class="nav-item"><Link to="/About" class="nav-link">About</Link></li>
-                        <li class="nav-item"><Link to="/Voting" class="nav-link">Voting</Link></li>
                         <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
                         <li class="nav-item"><Link to="/Account" class="nav-link">Account</Link></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
